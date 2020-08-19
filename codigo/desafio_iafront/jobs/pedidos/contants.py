@@ -1,5 +1,4 @@
-from desafio_iafront.jobs.contants import COLUNA_DATA, \
-    COLUNA_HORA, COLUNA_DEPARTAMENTO
+from desafio_iafront.jobs.contants import COLUNA_DATA, COLUNA_HORA, COLUNA_DEPARTAMENTO
 
 SAVING_PARTITIONS = [COLUNA_DEPARTAMENTO, COLUNA_DATA, COLUNA_HORA]
 ENCODE_COLUMNS = ["departamento"]

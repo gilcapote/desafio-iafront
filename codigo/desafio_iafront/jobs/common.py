@@ -29,13 +29,14 @@ def filter_date(row, data_inicial: datetime, data_final: datetime):
 
 
 def _extracting_coordinates(dataframe: pd.DataFrame) -> pd.DataFrame:
-    expanded_cols = pd.DataFrame(dataframe['coordenadas'].values.tolist(), columns=['latitude', 'longitude'])
+    expanded_cols = pd.DataFrame(dataframe["coordenadas"].values.tolist(), columns=['latitude', 'longitude'])
 
-    return dataframe.join(expanded_cols).drop('coordenadas', axis=1)
+    return dataframe.join(expanded_cols).drop("coordenadas", axis=1)
 
 
 def transform(dataframe: pd.DataFrame, scaler: TransformerMixin) -> pd.DataFrame:
-    fields_to_normalize = dataframe.filter(['preco', 'prazo', 'frete', 'latitude', 'longitude']).to_numpy()
+    fields_to_normalize = dataframe.filter(['preco', 'prazo', 'frete','latitude','longitude']).to_numpy()
+
 
     feature_scaled = scaler.fit_transform(fields_to_normalize)
 
@@ -54,3 +55,15 @@ def _apply_conversion(product_id):
         return 0
     else:
         return 1
+
+
+# ----------------------------------------------------------
+
+def prepare_features(dataframe: pd.DataFrame) -> pd.DataFrame:
+    fields = dataframe.filter(['preco', 'prazo', 'frete','latitude','longitude']).to_numpy()
+
+
+    dataframe['features'] = list(fields)
+
+    return dataframe
+

@@ -16,7 +16,9 @@ from desafio_iafront.jobs.common import filter_date
 @click.option('--cluster_label')
 @click.option('--data-inicial', type=click.DateTime(formats=["%d/%m/%Y"]))
 @click.option('--data-final', type=click.DateTime(formats=["%d/%m/%Y"]))
+
 def main(dataframe_path: str, saida: str, x_axis, y_axis, cluster_label, data_inicial, data_final):
+
     filter_function = partial(filter_date, data_inicial=data_inicial, data_final=data_final)
     dataframe = read_partitioned_json(dataframe_path, filter_function=filter_function)
 
