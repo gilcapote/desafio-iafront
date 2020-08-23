@@ -27,11 +27,6 @@ def join_datasets(join_column: str, how: str, *args) -> pd.DataFrame:
     return reduce(lambda dataset_1, dataset_2: dataset_1.join(dataset_2.set_index(join_column), how=how,
                                                               on=join_column), args)
 
-
-def keep_columns(data_frame: pd.DataFrame, kept_columns: Sequence[str]) -> pd.DataFrame:
-    return data_frame[kept_columns]
-
-
 def encode_columns(data_frame: pd.DataFrame, columns: Sequence[str]) -> pd.DataFrame:
     columns_head = columns[0]
     columns_tail = columns[0:]
@@ -43,10 +38,6 @@ def encode_columns(data_frame: pd.DataFrame, columns: Sequence[str]) -> pd.DataF
         return encode_columns(encoded_data_frame, columns_tail)
     else:
         return data_frame
-
-
-def rename_columns(data_frame: pd.DataFrame, column_renames: Dict[str, str]) -> pd.DataFrame:
-    return data_frame.rename(columns=column_renames)
 
 
 def extract_date(data_frame: pd.DataFrame, timestamp_column: str, date_column: str) -> pd.DataFrame:

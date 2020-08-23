@@ -22,11 +22,14 @@ def prepare_dataframe(departamentos_lista: Sequence[str], dataset_path, data_ini
 def filter_departamento(row, departamentos_lista: Sequence[str]):
     return row["departamento"] in departamentos_lista
 
+def filter_cluster(row):
+    return row['cluster_label']
+
+
 
 def filter_date(row, data_inicial: datetime, data_final: datetime):
     data = datetime.strptime(row["data"], "%Y-%m-%d")
     return data_inicial <= data < data_final
-
 
 def _extracting_coordinates(dataframe: pd.DataFrame) -> pd.DataFrame:
     expanded_cols = pd.DataFrame(dataframe["coordenadas"].values.tolist(), columns=['latitude', 'longitude'])
@@ -61,8 +64,6 @@ def _apply_conversion(product_id):
 
 def prepare_features(dataframe: pd.DataFrame) -> pd.DataFrame:
     fields = dataframe.filter(['preco', 'prazo', 'frete','latitude','longitude']).to_numpy()
-
-
     dataframe['features'] = list(fields)
 
     return dataframe

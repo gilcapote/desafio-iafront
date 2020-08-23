@@ -2,6 +2,7 @@ from functools import partial
 
 import click
 import numpy as np
+import os
 
 from desafio_iafront.data.saving import save_partitioned
 from desafio_iafront.jobs.clusters.clusters import kmeans
@@ -22,15 +23,18 @@ def main(dataset: str, number_of_cluster: int, saida: str, data_inicial, data_fi
     dataset = read_partitioned_json(file_path=dataset, filter_function=filter_function)
 
     vector = np.asarray(list(dataset['features'].to_numpy()))
-    coordinates, labels, inertia = kmeans(vector, number_of_cluster)
+
+    coordinates, labels, inertia, score = kmeans(vector, number_of_cluster)
     print(f"Clusters inertia: {inertia}")
+    print(f"SCORE: {score}")
     dataset[f'cluster_coordinate'] = list(coordinates)
     dataset[f'cluster_label'] = list(labels)
 
+
     print(f"Saving partitioned by cluster first..")
-    save_partitioned(dataset, saida + "\\" + "by_cluster", ['cluster_label', 'data', 'hora'])
+    save_partitioned(dataset, os.path.join(saida,"by_cluster"), ['cluster_label', 'data', 'hora'])
     print(f"Saving partitioned by data first..")
-    save_partitioned(dataset, saida + "\\" + "by_data", ['data', 'hora', 'cluster_label'])
+    save_partitioned(dataset, os.path.join(saida,"by_data"), ['data', 'hora', 'cluster_label'])
 
 
 if __name__ == '__main__':

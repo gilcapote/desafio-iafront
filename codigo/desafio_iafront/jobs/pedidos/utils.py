@@ -1,9 +1,9 @@
 import os
 import pandas as pd
 
-from desafio_iafront.data.dataframe_utils import read_partitioned_json, join_datasets,keep_columns, rename_columns
+from desafio_iafront.data.dataframe_utils import read_partitioned_json, join_datasets
 from desafio_iafront.data.saving import save_partitioned
-from desafio_iafront.jobs.pedidos.contants import KEPT_COLUNS, COLUMN_RENAMES, SAVING_PARTITIONS, ENCODE_COLUMNS
+from desafio_iafront.jobs.pedidos.contants import KEPT_COLUNS, COLUMN_RENAMES, SAVING_PARTITIONS
 from desafio_iafront.jobs.contants import COLUNA_DEPARTAMENTO
 
 
@@ -43,22 +43,10 @@ def merge_visita_produto(data_str: str, hour: int, pedidos_df: pd.DataFrame, pro
     return df_joint_visita_produto_pedido
 
 
-def clean_and_prepare(df_to_be_cleaned: pd.DataFrame):
-    # Remove colunas que não serão usadas e rearranja
-    removed = keep_columns(df_to_be_cleaned, KEPT_COLUNS)
-    # Renomeia colunas
-    visita_com_produto_pedido_cleaned = rename_columns(removed, COLUMN_RENAMES)
-
-    return visita_com_produto_pedido_cleaned
-
-
 def create_pedidos_df(date_partition: str, hour_snnipet: str, pedidos: str) -> pd.DataFrame:
     path = os.path.join(os.path.join(pedidos, date_partition), hour_snnipet)
     pedidos_df = read_partitioned_json(path)
     pedidos_df["visit_id"] = pedidos_df["visit_id"].astype(str)
-    # pedidos_partition = os.path.join(pedidos, date_partition, hour_snnipet)
-    # pedidos_df = read_partitioned_json(pedidos_partition)
-    # pedidos_df["visit_id"] = pedidos_df["visit_id"].astype(str)
 
     return pedidos_df
 
@@ -83,7 +71,7 @@ def prepare_files(data_str: str, hour: int, pedidos: str, produtos_df: pd.DataFr
 
     visita_com_produto_pedido_df = merge_visita_produto(data_str, hour, pedidos_df, produtos_df,
                                                         visitas_df)
-    visita_com_produto_pedido_cleaned = clean_and_prepare(visita_com_produto_pedido_df)
+    visita_com_produto_pedido_cleaned = _prepare(visita_com_produto_pedido_df)
 
     write_depts(visita_com_produto_pedido_cleaned, COLUNA_DEPARTAMENTO)
 

@@ -3,7 +3,8 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler, MaxAbsScaler, Ro
 
 
 LIST_SCALER = {'normalizer': Normalizer(), 'minmaxscaler': MinMaxScaler(), 'standardscaler': StandardScaler(),
-          'maxabsscaler': MaxAbsScaler(), 'robustscaler': RobustScaler(), 'powertransformer': PowerTransformer()}
+          'maxabsscaler': MaxAbsScaler(), 'robustscaler': RobustScaler(), 'powertransformer': PowerTransformer(),
+               'sem_normalizar': None}
 
 DEPTOS = ['esporte_lazer']
 

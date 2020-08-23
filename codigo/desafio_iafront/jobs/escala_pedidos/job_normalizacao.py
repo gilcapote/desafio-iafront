@@ -2,7 +2,7 @@ import click
 from desafio_iafront.data.saving import save_partitioned
 from desafio_iafront.jobs.common import prepare_dataframe, transform, prepare_features
 
-from desafio_iafront.jobs.escala_pedidos.constants import DEPTOS, LIST_SCALER
+from desafio_iafront.jobs.escala_pedidos.constants import LIST_SCALER
 
 
 
@@ -18,14 +18,14 @@ from desafio_iafront.jobs.escala_pedidos.constants import DEPTOS, LIST_SCALER
 def main(visitas_com_conversao, saida, data_inicial, data_final, departamentos, scaler=None):
 
     departamentos_lista = [departamento.strip() for departamento in departamentos.split(",")]
-
+    print(departamentos_lista)
     result = prepare_dataframe(departamentos_lista, visitas_com_conversao, data_inicial, data_final)
 
 
     # Faz a escala dos valores
     if scaler in LIST_SCALER.keys():
         result = transform(result, LIST_SCALER[scaler])
-        saida = saida + "_" + scaler
+        saida = saida + "\\" + scaler
         print(f"Scaling with {scaler}")
 
         # salva resultado
@@ -47,11 +47,3 @@ if __name__ == '__main__':
     main()
 
 
-
-# def main():
-#
-#     visitas_com_conversao = "F:\\Gil\\GitHub\\dataset-desafio-ia-front\\saida"
-#     saida = "F:\\Gil\\GitHub\\dataset-desafio-ia-front\\escalado\\escala_normalizer"
-#     data_inicial = datetime.strptime("01/06/2020", '%d/%m/%Y')
-#     data_final = datetime.strptime("08/06/2020", '%d/%m/%Y')
-#     departamentos_lista = DEPTOS

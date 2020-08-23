@@ -22,10 +22,18 @@ setup(
             'prepara-pedidos = desafio_iafront.jobs.pedidos.job:main',
             'normalizar = desafio_iafront.jobs.escala_pedidos.job_normalizacao:main',
             'kmeans = desafio_iafront.jobs.clusters.job_kmeans:main',
-            'agglomerative = desafio_iafront.jobs.clusters.job_agglomerative:main',
+            'minikmeans = desafio_iafront.jobs.clusters.job_minibatch_kmeans:main',
             'dbscan = desafio_iafront.jobs.clusters.job_dbscan:main',
             'optics = desafio_iafront.jobs.clusters.job_optics:main',
-            'birch = desafio_iafront.jobs.clusters.job_birch:main']
+            'birch = desafio_iafront.jobs.clusters.job_birch:main',
+            'graphic = desafio_iafront.jobs.graphics.job_graphic:main',
+            'histogram = desafio_iafront.jobs.graphics.job_histogram:main',
+            'dash = desafio_iafront.jobs.graphics.job_dash:main',
+            'clust_series = desafio_iafront.jobs.graphics.job_series:main',
+            'clust_map = desafio_iafront.jobs.graphics.job_clust_map:main',
+            'conversion = desafio_iafront.jobs.graphics.job_convert:main'
+
+        ]
     }
 )
 

@@ -1,14 +1,15 @@
 import numpy as np
-from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering, OPTICS, Birch
+from sklearn.cluster import KMeans, DBSCAN, OPTICS, Birch, MiniBatchKMeans
 
 
 
 def kmeans(vector: np.array, n: int):
-    k = KMeans(n_clusters=n, random_state=0)
+    k = KMeans(n_clusters=n, init='k-means++', n_init=6)
     cluster_coordinate = k.fit_transform(vector)
     cluster_label = k.fit(vector)
+    score = k.score(vector)
 
-    return cluster_coordinate, cluster_label.labels_, cluster_label.inertia_   #adding inertia parameter
+    return cluster_coordinate, cluster_label.labels_, cluster_label.inertia_, score
 
 def dbscan(vector: np.array, eps : float, samples: int ):
     k = DBSCAN(eps=eps, min_samples=samples)
@@ -19,19 +20,13 @@ def dbscan(vector: np.array, eps : float, samples: int ):
     return cluster_label.labels_
 
 def optics(vector: np.array, samples: int ):
-    k = OPTICS(min_samples=samples, min_cluster_size=0.1)
+    k = OPTICS(min_samples=samples, min_cluster_size=0.05, cluster_method='xi', xi=0.05)
 
     # cluster_coordinate = k.fit_predict(vector)
     cluster_label = k.fit(vector)
 
     return cluster_label.labels_
 
-def agglomerativeclustering(vector: np.array, n: int):
-    k = AgglomerativeClustering(n_clusters=n, linkage='ward')
-
-    cluster_label = k.fit(vector)
-
-    return cluster_label.labels_
 
 def birch(vector: np.array, n: int, threshold: float):
     k = Birch(n_clusters=n, threshold=threshold)
@@ -40,6 +35,13 @@ def birch(vector: np.array, n: int, threshold: float):
 
     return cluster_label.labels_
 
+def minibatch_kmeans(vector: np.array, n: int, batch_size: int ):
+    k = MiniBatchKMeans(n_clusters=n, init='k-means++', batch_size=batch_size)
+
+    cluster_label = k.fit(vector)
+    score = k.score(vector)
+
+    return cluster_label.labels_, cluster_label.inertia_, score
 
 
 
