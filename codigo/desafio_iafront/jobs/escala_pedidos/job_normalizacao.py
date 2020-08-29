@@ -1,7 +1,7 @@
 import click
 from desafio_iafront.data.saving import save_partitioned
 from desafio_iafront.jobs.common import prepare_dataframe, transform, prepare_features
-
+import os
 from desafio_iafront.jobs.escala_pedidos.constants import LIST_SCALER
 
 
@@ -25,7 +25,7 @@ def main(visitas_com_conversao, saida, data_inicial, data_final, departamentos, 
     # Faz a escala dos valores
     if scaler in LIST_SCALER.keys():
         result = transform(result, LIST_SCALER[scaler])
-        saida = saida + "\\" + scaler
+        saida = os.path.join(saida, scaler)
         print(f"Scaling with {scaler}")
 
         # salva resultado
@@ -33,7 +33,7 @@ def main(visitas_com_conversao, saida, data_inicial, data_final, departamentos, 
         print(f'saved ok')
     elif scaler is None:
         result = prepare_features(result)
-        saida = saida + "_sem_normalizar"
+        saida = os.path.join(saida, "sem_normalizar")
         print(f"Preparing data without scaling")
 
         # salva resultado

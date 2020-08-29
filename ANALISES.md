@@ -122,7 +122,7 @@ Dada a natureza espacial dos dados de coordenadas, assim como a dependencia de o
  
  Para desenhar os mapas de uma forma mais direta, criamos um job() que grafica agrupando por cluster label. 
  
- <img src="desafio_iafront/codigo/mapa.jpg">
+ <img src="codigo/desafio_iafront/mapa.jpg">
  
  
  Estos resultados parecem ter muito sentido, dados os regimes diferentes de envio que existem usualmente para as diferentes regioes do pais, 

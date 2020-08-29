@@ -74,7 +74,7 @@ python ./desafio_iafront/jobs/clusters/job_kmeans.py --dataset $results/escalado
 
 echo "==> Run job to see graph and histogram before and after transformation"
 # graficar --dataframe-path="results\escalados\scaler_robustscaler" --x_axis="longitude" --y_axis="latitude" --cluster_label="convertido" --data-inicial="01/06/2020" --data-final="08/06/2020" --saida="preco_prazo.html"
-python ./desafio_iafront/jobs/graphics/job_graphics.py --dataframe-path $results/escalados/$scaler --x_axis longitude  --y_axis latitude --cluster_label convertido --data-inicial $data_inicial --data-final $data_final --saida $results/mapa_convertidos.html
+python ./desafio_iafront/jobs/graphics/job_graphic.py --dataframe-path $results/escalados/$scaler --x_axis longitude  --y_axis latitude --cluster_label convertido --data-inicial $data_inicial --data-final $data_final --saida $results/mapa_convertidos.html
 python ./desafio_iafront/jobs/graphics/job_histogram.py --dataframe-path $results/escalados/$scaler --axe frete  --bins $bins --data-inicial $data_inicial --data-final $data_final --saida $results/histograma_frete.html
 
 echo "==> Run job to see dash of normalized scatter combinations and histograms of each variable"

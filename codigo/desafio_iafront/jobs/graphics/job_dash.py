@@ -1,6 +1,7 @@
 import click
 
 from desafio_iafront.jobs.graphics.utils import dash
+from bokeh.io import output_file, save
 
 
 @click.command()
@@ -15,9 +16,11 @@ from desafio_iafront.jobs.graphics.utils import dash
 
 
 def main(dataframe_path: str, saida: str, data_inicial, data_final, dash_type: str, bins: int, cluster_label:str, scaler:str):
+    output_file(saida)
 
-    dash(dataframe_path, data_inicial, data_final, saida, dash_type, cluster_label, bins, scaler)
+    figura = dash(dataframe_path, data_inicial, data_final, dash_type, cluster_label, bins, scaler)
 
+    save(figura)
 
 if __name__ == '__main__':
     main()

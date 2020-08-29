@@ -4,7 +4,6 @@ import numpy as np
 import os
 import itertools
 from functools import partial
-from bokeh.io import output_file, save
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 from desafio_iafront.data.dataframe_utils import read_partitioned_json
@@ -66,12 +65,12 @@ def make_plot(title, hist, edges):
     p.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],
            fill_color="navy", line_color="white", alpha=0.5, width = 0.4)
     p.xaxis.axis_label = 'x'
-    p.yaxis.axis_label = 'Pr(x)'
+    p.yaxis.axis_label = 'Frequency(x)'
     p.grid.grid_line_color="white"
     return p
 
-def dash(dataframe_path: str, data_inicial:str, data_final: str ,saida: str, dash_type:str, cluster_label :str,
-         bins:int, scaler: str):
+def dash(dataframe_path: str, data_inicial: str, data_final: str, dash_type: str, cluster_label: str,
+         bins: int, scaler: str):
 
     axis_options = []
     for j in range(len(LIST_AXIS)):
@@ -81,7 +80,6 @@ def dash(dataframe_path: str, data_inicial:str, data_final: str ,saida: str, das
             if len(combinations[i]) == 2:
                 axis_options.append(combinations[i])
 
-    output_file(saida)
     figura = []
 
     if scaler in LIST_SCALER.keys():
@@ -111,7 +109,7 @@ def dash(dataframe_path: str, data_inicial:str, data_final: str ,saida: str, das
                 print(f"Erro: Opcoes possiveis: 'scatter' ou 'histogram'")
 
     figs = gridplot(figura, ncols=len(LIST_AXIS))
-    save(figs)
+    return figs
 
 def plot_series(dataframe_path, data_inicial: str, data_final: str, cluster_method: str, scaler: str, timescale: str,title :str):
     def filter_data_cluster(row):

@@ -1,6 +1,6 @@
 import click
 
-from desafio_iafront.jobs.graphics.utils import plot_map, plot_series
+from desafio_iafront.jobs.graphics.utils import plot_map
 from bokeh.io import output_file, save
 
 
