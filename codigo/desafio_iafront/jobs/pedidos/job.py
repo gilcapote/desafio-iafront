@@ -21,7 +21,7 @@ def main(pedidos, visitas, produtos, saida, data_inicial, data_final):
     produtos_df = read_csv(produtos)
     produtos_df["product_id"] = produtos_df["product_id"].astype(str)
 
-    delta: timedelta = (data_final - data_inicial)
+    delta = (data_final - data_inicial)
     date_partitions = [data_inicial.date() + timedelta(days=days) for days in range(delta.days)]
 
     for data in date_partitions:
