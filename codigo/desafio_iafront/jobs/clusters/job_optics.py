@@ -17,12 +17,14 @@ from desafio_iafront.jobs.common import filter_date
 @click.option('--samples', type=click.INT)
 
 
-def main(dataset: str, samples: int, saida: str, data_inicial, data_final):
+def main(dataset: str, saida: str, data_inicial, data_final, samples: int):
 
     filter_function = partial(filter_date, data_inicial=data_inicial, data_final=data_final)
+    print(dataset)
+    df = read_partitioned_json(file_path=dataset, filter_function=filter_function)
+    print(df)
 
-    dataset = read_partitioned_json(file_path=dataset, filter_function=filter_function)
-    vector = np.asarray(list(dataset['features'].to_numpy()))
+    vector = np.asarray(list(df['features'].to_numpy()))
 
     labels = optics(vector, samples)
 
@@ -32,12 +34,12 @@ def main(dataset: str, samples: int, saida: str, data_inicial, data_final):
     print(len(clust_quantity))
     print(f"saving clusters...")
 
-    dataset['cluster_label'] = list(labels)
+    df['cluster_label'] = list(labels)
 
     print(f"Saving partitioned by cluster first..")
-    save_partitioned(dataset, os.path.join(saida,"by_cluster"), ['cluster_label', 'data', 'hora'])
+    save_partitioned(df, os.path.join(saida,"by_cluster"), ['cluster_label', 'data', 'hora'])
     print(f"Saving partitioned by data first..")
-    save_partitioned(dataset, os.path.join(saida,"by_data"), ['data', 'hora', 'cluster_label'])
+    save_partitioned(df, os.path.join(saida,"by_data"), ['data', 'hora', 'cluster_label'])
 
 
 if __name__ == '__main__':

@@ -126,29 +126,34 @@ def plot_series(dataframe_path, data_inicial: str, data_final: str, cluster_meth
     dataframe['dia'] = [d.split(" ")[0].split("-")[-1] for d in dataframe["datahora"]]
     dataframe['hora']  = [d.split(" ")[-1].split(":")[0] for d in dataframe["datahora"]]
     dataframe['minuto'] = [d.split(" ")[-1].split(":")[1] for d in dataframe["datahora"]]
-    print(dataframe['dia'].unique())
 
     n_cluster = sorted(dataframe['cluster_label'].unique())
-    print(n_cluster)
 
     TOOLS = 'crosshair,save,pan,box_zoom,reset,wheel_zoom'
     p = figure(title=title, y_axis_type="linear", tools=TOOLS)
     colors = itertools.cycle(palette)
 
+    df, df_temp = pd.DataFrame(), pd.DataFrame()  
+    
     for n, color in zip(n_cluster, colors):
 
         x_axis = sorted(dataframe[timescale].unique())
         df_1 = dataframe[(dataframe['cluster_label']==n) & (dataframe['convertido']==1)].groupby(by=[timescale]).count().sort_values(by=timescale)
         df_0 = dataframe[(dataframe['cluster_label']==n)].groupby(by=[timescale]).count().sort_values(by=timescale)
         cv = df_1["convertido"]/df_0["convertido"]
-        print(x_axis, cv)
+        #print(x_axis, cv)
+        
+        df_temp[timescale] = x_axis
+        df_temp['conversao'] = cv.values
+        df_temp['cluster_label'] = n 
+        df = pd.concat([df, df_temp], ignore_index=True)
 
         p.line(x_axis, cv, legend_label=str(n), color=palette[n], line_width=3)
         p.legend.location = "top_left"
         p.xaxis.axis_label = timescale
         p.yaxis.axis_label = 'Conversao'
-
-    return p
+    
+    return p, df
 
 def plot_map(dataframe_path: str, data_inicial: str, data_final: str, cluster_method: str, scaler: str):
     def filter_cluster_data(row):
