@@ -152,7 +152,11 @@ Nas duas semanas analisadas(01/06-15/06), o cluster correspondente à região su
  Um fenômeno temporal observado que vale a pena mencionar foi que para as duas semanas estudadas, o horario de final da tarde(17-20 horas)
  parece ser um horário de queda no parametro de conversão. 
  
- 
+ Para finalizar foi criado o pipeline do projeto. Foram incluidas as entradas na seçao console_scripts do setup.py.
+ O projeto foi automatizado com a criaçao do arquivo shell `pipeline.sh`, o qual cria o virtualenv, instala o projeto nele 
+ e executa os comandos dos jobs criados. Para correr o projeto, é necessario modificar o arquivo de configuraçoes(`variaveis.sh`)
+ e incluir os path do dataset desejado e da pasta de saida onde serão colocados os resultados. Alguns outros parametros 
+ podem ser modificados lá. Após isto, o projeto pode ser executado pelo comando `./pipeline.sh`
  
   
 
